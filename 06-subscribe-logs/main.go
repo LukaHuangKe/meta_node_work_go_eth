@@ -175,12 +175,13 @@ func parseLogEvent(vLog *types.Log, parsedABI abi.ABI) {
 
 	// Topics[0] 是事件签名，所以 indexed 参数从 Topics[1] 开始
 	// 注意：topicIndex 只针对 indexed 参数计数，不考虑非 indexed 参数
+	// 感觉这样写过于复杂了？
 	indexedParamIndex := 0
 	for i, input := range eventSig.Inputs {
 		if !input.Indexed {
 			continue
 		}
-		// indexed 参数在 Topics 中的位置 = 1 + indexed 参数的索引，因为丢一个参数是事件签名哈希
+		// indexed 参数在 Topics 中的位置 = 1 + indexed 参数的索引，因为第一个参数是事件签名哈希。
 		topicIndex := 1 + indexedParamIndex
 		indexedParamIndex++
 
