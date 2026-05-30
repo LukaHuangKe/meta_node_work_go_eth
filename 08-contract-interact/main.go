@@ -223,6 +223,7 @@ func handleTransfer(ctx context.Context, client *ethclient.Client, parsedABI abi
 	}
 	fromAddr := crypto.PubkeyToAddress(*publicKeyECDSA)
 
+	// common.HexToAddress 函数对 0x 前缀可以带，也可以不带
 	contractAddr := common.HexToAddress(contractHex)
 	toAddr := common.HexToAddress(toHex)
 
@@ -293,7 +294,7 @@ func handleTransfer(ctx context.Context, client *ethclient.Client, parsedABI abi
 		baseFee = gasPrice
 	}
 
-	// fee cap = base fee * 2 + tip cap（简单策略）
+	// gasFeeCap（Gas 价格上限） = base fee * 2 + tip cap（简单策略）
 	gasFeeCap := new(big.Int).Add(
 		new(big.Int).Mul(baseFee, big.NewInt(2)),
 		gasTipCap,
