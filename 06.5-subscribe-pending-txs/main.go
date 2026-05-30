@@ -16,7 +16,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// 08-subscribe-pending-txs-ethclient.go
+// 06.5-subscribe-pending-txs-ethclient.go
 // 使用 go-ethereum 库订阅 newPendingTransactions
 // 这是更可靠的方式，因为 go-ethereum 处理了所有底层细节
 

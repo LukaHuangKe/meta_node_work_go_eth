@@ -90,10 +90,16 @@ func fetchBlockWithRetry(ctx context.Context, client *ethclient.Client, blockNum
 	var lastErr error
 	for i := 0; i < maxRetries; i++ {
 		// 每次重试使用新的超时上下文，避免上下文被取消
+		// 1. 创建子上下文，10秒超时
 		reqCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+
+		// 2. 调用同步 RPC 请求：这是一个阻塞调用！
 		block, err := client.BlockByNumber(reqCtx, blockNumber)
+
+		// 3. 请求完成后，调用 cancel() 释放子上下文资源
 		cancel()
 
+		// 4. 继续执行后续代码...
 		if err == nil {
 			return block, nil
 		}
